@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honda Kapuas - NSS</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#f4f4f4;color:#222}
+.header{background:#e60012;color:#fff;padding:20px;text-align:center}
+.header h1{margin:0;font-size:22px}
+.header p{margin:5px 0 0;font-size:13px}
+.card{background:#fff;margin:15px;border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.card h2{margin:0 0 5px;font-size:22px}
+.price{color:#e60012;font-size:24px;font-weight:bold;margin:10px 0}
+.badge{background:#ffe8ea;color:#e60012;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+td{padding:8px 0;border-bottom:1px solid #eee}
+td:last-child{text-align:right;font-weight:bold}
+.btn{display:block;text-align:center;background:#25D366;color:#fff;padding:14px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:16px;margin-top:15px}
+.btn2{display:block;text-align:center;background:#111;color:#fff;padding:12px;border-radius:10px;text-decoration:none;font-weight:bold;margin-top:10px}
+.note{font-size:12px;color:#777;text-align:center;margin:15px}
+select{width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;font-size:16px;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>HONDA KAPUAS - NSS</h1>
+<p>Palangkaraya | Kapuas | Resmi & Terpercaya</p>
+</div>
+
+<div class="card">
+<label><b>Pilih Motor:</b></label>
+<select id="motorSelect" onchange="gantiMotor()">
+<option value="beat">Beat</option>
+<option value="vario160">Vario 160</option>
+<option value="scoopy">Scoopy</option>
+<option value="pcx160">PCX 160</option>
+<option value="supra">Supra GTR 150</option>
+<option value="crf150">CRF 150L</option>
+</select>
+
+<h2 id="namaMotor">Honda Beat</h2>
+<span class="badge">READY STOCK • PROMO BULAN INI</span>
+<div class="price" id="hargaMotor">Rp 18.430.000</div>
+<p id="descMotor" style="font-size:14px;color:#555">Irit, lincah, cocok buat harian di Palangkaraya.</p>
+
+<table>
+<tr><td>DP Mulai</td><td id="dpMotor">Rp 800.000</td></tr>
+<tr><td>Angsuran 35x</td><td id="cicilanMotor">Rp 750.000 / bln</td></tr>
+<tr><td>Warna</td><td>Hitam / Putih / Merah / Biru</td></tr>
+<tr><td>Proses</td><td>1 Hari, Dibantu Sampai ACC</td></tr>
+</table>
+
+<a class="btn" id="waBtn" href="https://wa.me/6281250000000?text=Halo%20Honda%20Kapuas,%20saya%20mau%20tanya%20Beat" target="_blank">💬 Tanya Via WhatsApp</a>
+<a class="btn2" href="https://maps.google.com/?q=Honda+NSS+Palangkaraya" target="_blank">📍 Lihat Lokasi Dealer</a>
+</div>
+
+<div class="card" style="font-size:14px">
+<b>Kenapa Beli di Kami?</b><br><br>
+✅ Proses Cepat, Tanpa Ribet<br>
+✅ Bisa Tukar Tambah Motor Lama<br>
+✅ Gratis Service & Garansi Resmi Honda<br>
+✅ Pengiriman Ke Kapuas & Palangkaraya
+</div>
+
+<p class="note">© 2026 Honda Kapuas - NSS Palangkaraya<br>Harga OTR Palangkaraya, bisa berubah sewaktu-waktu.</p>
+
+<script>
+const data = {
+  beat: {nama:"Honda Beat", harga:"Rp 18.430.000", dp:"Rp 
