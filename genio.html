@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Honda Genio - NSS Kapuas</title>
 <style>
+  /* INI KUNCINYA BIAR HEADER NEMPEL */
+  #header{position:sticky;top:0;z-index:999}
   *{box-sizing:border-box} body{font-family:Arial,sans-serif;background:#f5f5f5;margin:0}
   .wrap{max-width:600px;margin:0 auto;padding:16px}
   .slider-wrap{position:relative;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.1)}
@@ -83,7 +85,6 @@ function setActive(i){
   thumbs.forEach((t,j)=>t.classList.toggle('active',j===i));
   thumbs[i].scrollIntoView({behavior:'smooth', inline:'nearest', block:'nearest'});
 }
-
 function pilih(i){
   setActive(i);
   isProgrammatic=true;
@@ -104,9 +105,16 @@ slider.addEventListener('scroll',()=>{
   }, 80);
 });
 
-// PANGGIL HEADER + FOOTER
-fetch('header.html').then(r=>r.text()).then(h=>document.getElementById('header').innerHTML=h);
-fetch('footer.html').then(r=>r.text()).then(h=>document.getElementById('footer').innerHTML=h);
+// PANGGIL HEADER + FOOTER - SUDAH ANTI 404
+function loadPart(file, id){
+  fetch(file).then(r=>{
+    if(!r.ok) throw new Error('File '+file+' tidak ketemu');
+    return r.text();
+  }).then(h=>{ document.getElementById(id).innerHTML=h; })
+  .catch(e=>{ console.log(e.message); document.getElementById(id).style.display='none'; });
+}
+loadPart('header.html','header');
+loadPart('footer.html','footer');
 </script>
 </body>
 </html>
