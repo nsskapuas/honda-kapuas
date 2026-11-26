@@ -6,9 +6,6 @@
 <title>Honda Genio - NSS Kapuas</title>
 <style>
   *{box-sizing:border-box} body{font-family:Arial,sans-serif;background:#f5f5f5;margin:0}
-  .header{background:#e60012;color:#fff;padding:16px;text-align:center}
-  .header b{font-size:22px}
-  .header span{font-size:12px;opacity:.9}
   .wrap{max-width:600px;margin:0 auto;padding:16px}
   .slider-wrap{position:relative;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.1)}
   .slider{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
@@ -30,12 +27,17 @@
   .specs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
   .specs span{background:#fff;padding:8px 12px;border-radius:20px;font-size:13px}
   .wa{display:block;background:#25D366;color:#fff;text-align:center;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;margin-top:16px}
+  .judul{ text-align:center; padding:16px 0 0; }
+  .judul b{font-size:22px}
+  .judul span{font-size:12px;color:#888}
 </style>
 </head>
 <body>
- <body>
+
 <div id="header"></div>
-  <div class="header"><b>HONDA GENIO</b><br><span>DEALER HONDA NSS KAPUAS</span></div>
+
+  <div class="judul"><b>HONDA GENIO</b><br><span>DEALER HONDA NSS KAPUAS</span></div>
+
   <div class="wrap">
     <div class="slider-wrap">
       <div class="slider" id="slider">
@@ -65,6 +67,9 @@
     <div class="specs"><span>110cc eSP</span><span>Irit 59,1 km/L</span><span>LED + ISS</span></div>
     <a class="wa" href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20tanya%20Honda%20Genio">💬 TANYA HARGA VIA WHATSAPP</a>
   </div>
+
+<div id="footer"></div>
+
 <script>
 const slider=document.getElementById('slider');
 const thumbs=document.querySelectorAll('.thumb');
@@ -76,7 +81,6 @@ function setActive(i){
   if(i===idx) return;
   idx=i;
   thumbs.forEach((t,j)=>t.classList.toggle('active',j===i));
-  // biar thumbnail aktif selalu keliatan, geser pelan
   thumbs[i].scrollIntoView({behavior:'smooth', inline:'nearest', block:'nearest'});
 }
 
@@ -91,7 +95,6 @@ function geser(d){
   let n=idx+d; if(n<0)n=0; if(n>5)n=5;
   pilih(n);
 }
-// Pas user geser manual, jangan update tiap pixel, tunggu berhenti baru update
 slider.addEventListener('scroll',()=>{
   if(isProgrammatic) return;
   clearTimeout(scrollTimer);
@@ -100,8 +103,8 @@ slider.addEventListener('scroll',()=>{
     if(n!==idx) setActive(n);
   }, 80);
 });
-</script>
-<div id="footer"></div>
+
+// PANGGIL HEADER + FOOTER
 fetch('header.html').then(r=>r.text()).then(h=>document.getElementById('header').innerHTML=h);
 fetch('footer.html').then(r=>r.text()).then(h=>document.getElementById('footer').innerHTML=h);
 </script>
