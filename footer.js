@@ -3,11 +3,11 @@ document.getElementById('footer').innerHTML = `
 <footer style="background:#e9edf0;padding:16px 12px 20px;font-family:Arial,sans-serif">
   <div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08);padding:20px 16px 12px;text-align:center;border:1px solid #e0e0e0">
     <div style="display:inline-block;background:#e60012;color:#fff;font-size:10px;font-weight:900;letter-spacing:1.5px;padding:5px 12px;border-radius:20px">DEALER RESMI HONDA</div>
-    <div style="font-size:21px;font-weight:900;letter-spacing:0.5px;color:#111;margin-top:10px;line-height:1.2">HONDA <span style="color:#e60012">NSS KAPUAS</span></div>
+    <div style="font-size:21px;font-weight:900;letter-spacing:0.5px;color:#111;margin-top:10px;line-height:1.2">HONDA <span style="color:#e60012">NUSANTARA SAKTI</span></div>
     <div style="font-size:10px;color:#777;letter-spacing:1.5px;margin-top:3px;line-height:1.2">KUALA KAPUAS</div>
 
     <div style="font-size:13px;line-height:1.35;color:#333;margin-top:14px">
-      📍 JL. A.YANI NO. 30 Kec. SELAT - KUALA KAPUAS<br>
+      📍 JL. A.YANI NO. 30 Kec. SELAT - SELAT HILIR<br>
       Kalimantan Tengah 73513<br>
       <span style="margin-top:4px;display:inline-block">📞 <a href="tel:0536xxxxxxx" style="color:#111 !important;font-weight:bold">0536-xxx-xxxx</a> &nbsp;|&nbsp; 💬 <a href="https://wa.me/6281234567890" style="color:#0a9e3a !important;font-weight:bold">Chat WhatsApp</a></span>
     </div>
