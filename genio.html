@@ -44,6 +44,32 @@
   .banner-dots{text-align:center;margin-top:8px}
   .banner-dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ccc;margin:0 3px;cursor:pointer}
   .banner-dots span.active{background:#e60012}
+
+  /* ===== DAFTAR HARGA LIVE DARI GOOGLE SHEET ===== */
+  .harga-btn-wrap{ text-align:center; margin:16px 0; }
+  .harga-btn{ background:#E4002B; color:#fff !important; border:none; padding:14px 28px; font-size:16px; font-weight:800; border-radius:12px; cursor:pointer; width:100%; max-width:420px; box-shadow:0 4px 12px rgba(228,0,43,.3); }
+  .harga-btn:active{ transform:scale(.97); }
+  .harga-overlay{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:9999; justify-content:center; align-items:center; padding:12px; }
+  .harga-overlay.open{ display:flex; }
+  .harga-box{ background:#fff; width:100%; max-width:720px; max-height:88vh; overflow:auto; border-radius:16px; padding:18px 14px 20px; position:relative; }
+  .harga-box h3{ margin:0 0 4px; font-size:18px; text-align:center; color:#000; }
+  .harga-box p.sub{ text-align:center; font-size:12px; color:#666; margin:0 0 12px; }
+  .harga-table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid #ddd; border-radius:8px; }
+  .harga-table{ width:max-content; min-width:100%; border-collapse:collapse; font-size:13px; }
+  .harga-table th, .harga-table td{ border:1px solid #ddd; padding:10px 10px; text-align:center; white-space:nowrap; color:#000; background:#fff; }
+  .harga-table th{ background:#111; color:#fff; font-size:12px; font-weight:800; }
+  .harga-table td:first-child{ text-align:left; font-weight:800; font-size:13px; min-width:190px; position:sticky; left:0; background:#fff; box-shadow:2px 0 5px rgba(0,0,0,.08); }
+  .harga-table th:first-child{ position:sticky; left:0; z-index:2; }
+  .harga-table td{ font-weight:600; }
+  .harga-table td:nth-child(2){ font-weight:800; }
+  .harga-table td:nth-child(3){ font-weight:800; color:#E4002B; background:#FFF5F6; }
+  .harga-table tr:nth-child(even) td{ background:#F9F9F9; }
+  .harga-table tr:nth-child(even) td:nth-child(3){ background:#FFF5F6; }
+  .harga-table tr:nth-child(even) td:first-child{ background:#F9F9F9; }
+  .harga-note{ font-size:11px; color:#666; margin-top:10px; text-align:center; }
+  .harga-close{ position:sticky; bottom:0; float:right; background:#111; color:#fff; border:none; width:44px; height:44px; border-radius:50%; font-size:20px; font-weight:800; cursor:pointer; margin-top:12px; }
+  .harga-loading{ text-align:center; padding:20px; color:#666; }
+  .harga-hint{ text-align:center; font-size:11px; color:#E4002B; font-weight:700; margin:0 0 8px; }
 </style>
 </head>
 <body>
@@ -82,6 +108,12 @@
 
     <div class="price"><span>Harga Mulai (OTR Kapuas)</span><b>Rp 20 Jutaan*</b><span>*Chat admin untuk harga pasti</span></div>
     <div class="specs"><span>110cc eSP</span><span>Irit 59,1 km/L</span><span>LED + ISS</span></div>
+
+    <!-- ===== TOMBOL DAFTAR HARGA - LIVE ===== -->
+    <div class="harga-btn-wrap">
+      <button class="harga-btn" onclick="openHarga()">📋 DAFTAR HARGA</button>
+    </div>
+
     <a class="wa" href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20tanya%20Honda%20Genio">💬 TANYA HARGA VIA WHATSAPP</a>
   </div>
 
@@ -98,6 +130,18 @@
       <span onclick="pilihBannerBawah(1)"></span>
     </div>
   </div>
+
+<!-- ===== POPUP DAFTAR HARGA ===== -->
+<div class="harga-overlay" id="hargaOverlay" onclick="if(event.target===this) closeHarga()">
+  <div class="harga-box">
+    <h3>DAFTAR HARGA GENIO</h3>
+    <p class="sub">OTR Area Kapuas • DP Sudah Termasuk Subsidi • Live dari Spreadsheet</p>
+    <p class="harga-hint">👉 Geser tabel ke samping untuk lihat 24x, 30x, 36x</p>
+    <div id="hargaContent"><div class="harga-loading">Memuat harga...</div></div>
+    <p class="harga-note">* Harga OTR Kapuas, dapat berubah sewaktu-waktu.<br>Hubungi kami via WhatsApp untuk promo terbaru.</p>
+    <button class="harga-close" onclick="closeHarga()">✕</button>
+  </div>
+</div>
 
 <div id="footer"></div>
 
@@ -165,6 +209,47 @@ bannerBawahSlider.addEventListener('scroll',()=>{
     if(n!==bannerBawahIdx){ bannerBawahIdx=n; bannerBawahDots.forEach((d,j)=>d.classList.toggle('active',j===n)); }
   },80);
 });
+
+// ===== DAFTAR HARGA LIVE =====
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrccPk1DQlgQQ2SatupXlLG43P8PLKT0B2RO0NPZZR5__59lH1Lf4RZhFi-_EB43erUhoyiOSG6o4s/pub?gid=696229520&single=true&output=csv";
+function openHarga(){
+  document.getElementById('hargaOverlay').classList.add('open');
+  loadHarga();
+}
+function closeHarga(){ document.getElementById('hargaOverlay').classList.remove('open'); }
+async function loadHarga(){
+  const box = document.getElementById('hargaContent');
+  try{
+    const res = await fetch(SHEET_CSV_URL);
+    const text = await res.text();
+    const rows = [];
+    let cur = [], val = '', inQ = false;
+    for(let i=0;i<text.length;i++){
+      const c = text[i];
+      if(c === '"'){ inQ = !inQ; }
+      else if(c === ',' && !inQ){ cur.push(val); val=''; }
+      else if((c === '\n' || c === '\r') && !inQ){ if(val!==''||cur.length){ cur.push(val); rows.push(cur); cur=[]; val=''; } if(c==='\r' && text[i+1]==='\n') i++; }
+      else val += c;
+    }
+    if(val!==''||cur.length){ cur.push(val); rows.push(cur); }
+    let headerIdx = rows.findIndex(r => r.join(' ').toUpperCase().includes('OTR'));
+    if(headerIdx === -1) headerIdx = 0;
+    const dataRows = rows.slice(headerIdx+1).filter(r => r.join('').trim() !== '' && r[0] && r[0].trim() !== '' && !r[0].toUpperCase().includes('TYPE'));
+    let html = '<div class="harga-table-wrap"><table class="harga-table"><tr>';
+    const heads = ['VARIAN','OTR','CUKUP BAYAR','12x','18x','24x','30x','36x'];
+    heads.forEach(h => html += `<th>${h}</th>`);
+    html += '</tr>';
+    dataRows.forEach(r => {
+      html += '<tr>';
+      for(let i=0;i<8;i++){ html += `<td>${(r[i]||'').trim()}</td>`; }
+      html += '</tr>';
+    });
+    html += '</table></div>';
+    box.innerHTML = html;
+  }catch(e){
+    box.innerHTML = '<div class="harga-loading">Gagal memuat harga. Coba refresh / cek koneksi.</div>';
+  }
+}
 </script>
 </body>
 </html>
