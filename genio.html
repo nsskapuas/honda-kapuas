@@ -32,11 +32,26 @@
   .judul{ text-align:center; padding:16px 0 0; }
   .judul b{font-size:22px}
   .judul span{font-size:12px;color:#888}
+  /* TAMBAHAN BANNER - GAK NGANGGU KODE LAMA */
+  .banner-atas{max-width:600px;margin:12px auto 0;padding:0 16px}
+  .banner-atas img{width:100%;display:block;border-radius:14px}
+  .banner-bawah{max-width:600px;margin:0 auto;padding:0 16px 16px}
+  .banner-bawah-wrap{position:relative;border-radius:14px;overflow:hidden}
+  .banner-bawah-slider{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+  .banner-bawah-slider::-webkit-scrollbar{display:none}
+  .banner-bawah-slide{min-width:100%;scroll-snap-align:center}
+  .banner-bawah-slide img{width:100%;display:block}
+  .banner-dots{text-align:center;margin-top:8px}
+  .banner-dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ccc;margin:0 3px;cursor:pointer}
+  .banner-dots span.active{background:#e60012}
 </style>
 </head>
 <body>
 
 <div id="header"></div>
+
+  <!-- BANNER ATAS - A1 -->
+  <div class="banner-atas"><img src="assets/images/matic/genio/A1.jpg"></div>
 
   <div class="judul"><b>HONDA GENIO</b><br><span>DEALER HONDA NSS KAPUAS</span></div>
 
@@ -68,6 +83,20 @@
     <div class="price"><span>Harga Mulai (OTR Kapuas)</span><b>Rp 20 Jutaan*</b><span>*Chat admin untuk harga pasti</span></div>
     <div class="specs"><span>110cc eSP</span><span>Irit 59,1 km/L</span><span>LED + ISS</span></div>
     <a class="wa" href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20tanya%20Honda%20Genio">💬 TANYA HARGA VIA WHATSAPP</a>
+  </div>
+
+  <!-- BANNER BAWAH - B1, B2 - BISA SLIDE -->
+  <div class="banner-bawah">
+    <div class="banner-bawah-wrap">
+      <div class="banner-bawah-slider" id="bannerBawahSlider">
+        <div class="banner-bawah-slide"><img src="assets/images/matic/genio/B1.jpg"></div>
+        <div class="banner-bawah-slide"><img src="assets/images/matic/genio/B2.jpg"></div>
+      </div>
+    </div>
+    <div class="banner-dots" id="bannerBawahDots">
+      <span class="active" onclick="pilihBannerBawah(0)"></span>
+      <span onclick="pilihBannerBawah(1)"></span>
+    </div>
   </div>
 
 <div id="footer"></div>
@@ -115,6 +144,27 @@ function loadPart(file, id){
 }
 loadPart('header.html','header');
 loadPart('footer.html','footer');
+
+// SLIDER BANNER BAWAH - B1, B2 - AUTO + MANUAL
+const bannerBawahSlider=document.getElementById('bannerBawahSlider');
+const bannerBawahDots=document.querySelectorAll('#bannerBawahDots span');
+let bannerBawahIdx=0;
+function pilihBannerBawah(i){
+  bannerBawahIdx=i;
+  bannerBawahSlider.scrollTo({left: bannerBawahSlider.clientWidth*i, behavior:'smooth'});
+  bannerBawahDots.forEach((d,j)=>d.classList.toggle('active',j===i));
+}
+setInterval(()=>{
+  let n=bannerBawahIdx+1; if(n>1) n=0;
+  pilihBannerBawah(n);
+},4000);
+bannerBawahSlider.addEventListener('scroll',()=>{
+  clearTimeout(scrollTimer);
+  scrollTimer=setTimeout(()=>{
+    let n=Math.round(bannerBawahSlider.scrollLeft/bannerBawahSlider.clientWidth);
+    if(n!==bannerBawahIdx){ bannerBawahIdx=n; bannerBawahDots.forEach((d,j)=>d.classList.toggle('active',j===n)); }
+  },80);
+});
 </script>
 </body>
 </html>
